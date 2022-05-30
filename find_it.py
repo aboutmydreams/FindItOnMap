@@ -35,7 +35,7 @@ class BaseSearcher(object):
             'output': 'json'}
 
     def get_bounds(self):
-        return str(self.lat) + ',' + str(self.lng) + ',' + str(self.lat+self.offset) + ',' + str(self.lng+self.offset)
+        return f'{str(self.lat)},{str(self.lng)},{str(self.lat+self.offset)},{str(self.lng+self.offset)}'
 
     def get_data(self):
         self.create_params()
@@ -91,7 +91,7 @@ class Searcher(BaseSearcher):
                     self.total_num = data['total']
                     self.total_page = int(self.total_num/self.page_size)
 
-                    for page_now in range(0, self.total_page):
+                    for page_now in range(self.total_page):
                         self.page_num = page_now
                         response = self.get_data()
                         json = response.json()
@@ -100,7 +100,7 @@ class Searcher(BaseSearcher):
                             self.save_data(items)
 
                             times += 1
-                            print("times: " + str(times))
+                            print(f"times: {times}")
                         except Exception as e:
                             print(e)
 
